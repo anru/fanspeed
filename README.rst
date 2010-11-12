@@ -20,3 +20,8 @@ Examples
 """"""""
 
 Examples located in examples sub directory
+
+Schema
+""""""
+
+.. image:: examples/shema.jpg
