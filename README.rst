@@ -24,4 +24,4 @@ Examples located in examples sub directory
 Schema
 """"""
 
-.. image:: examples/shema.jpg
+.. image:: http://github.com/version/fanspeed/raw/master/examples/shema.jpg
