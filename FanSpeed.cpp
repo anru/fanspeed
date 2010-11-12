@@ -6,17 +6,17 @@
 #include "WProgram.h"
 #include "FanSpeed.h"
 
-void FanSpeedBase::init(int pin, bool useInternalResistor)
+void FanSpeedBase::init(int pin, bool useInternalResistor = true)
 {
-	pinMode(pin, INPUT);
-	if (useInternalResistor && pin != 13) {
-		digitalWrite(pin, HIGH);
-	}
-	_pin = pin;
-	_counter = 0;
+    pinMode(pin, INPUT);
+    if (useInternalResistor && pin != 13) {
+        digitalWrite(pin, HIGH);
+    }
+    _pin = pin;
+    _counter = 0;
 }
 
-unsigned long FanSpeedBase::getHallCounter()
+unsigned long FanSpeedBase::getPulseCounter()
 {
     return _counter;
 }
@@ -28,27 +28,27 @@ void FanSpeedBase::reset()
 
 FanSpeed::FanSpeed(int pin, bool useInternalResistor)
 {
-	init(pin, useInternalResistor);
+    init(pin, useInternalResistor);
 }
 
 unsigned long FanSpeed::process()
 {
-	hallState = digitalRead(_pin);
-	if ((hallState == HIGH) && (prevHallState != hallState)) {
-		_counter++;
-	}
-	prevHallState = hallState;
-	return _counter;
+    pulseState = digitalRead(_pin);
+    if ((pulseState == HIGH) && (prevPulseState != pulseState)) {
+        _counter++;
+    }
+    prevPulseState = pulseState;
+    return _counter;
 }
 
 
 FanSpeedInt::FanSpeedInt(int pin, bool useInternalResistor)
 {
-	init(pin, useInternalResistor);
+    init(pin, useInternalResistor);
 }
 
 unsigned long FanSpeedInt::process()
 {
-	_counter++;
-	return _counter;
+    _counter++;
+    return _counter;
 }
