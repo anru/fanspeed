@@ -19,7 +19,7 @@ void loop() {
 
   if (currentMillis - previousMillis > 1000) {
     previousMillis = currentMillis; 
-    Serial.print(fan.getHallCounter()*30); // 60/2  (seconds in minute divide by hall rising count per rotation
+    Serial.print(fan.getPulseCounter()*30); // 60/2  (seconds in minute divide by hall rising count per rotation
     Serial.print(" rpm\r\n");
     fan.reset();
   }
