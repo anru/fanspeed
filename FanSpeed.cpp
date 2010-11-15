@@ -35,8 +35,8 @@ FanSpeed::FanSpeed(int pin, bool useInternalResistor)
 
 unsigned long FanSpeed::process()
 {
-    int pinn = PIND;
-    int bit = _pin;
+    uint8_t pinn = PIND;
+    uint8_t bit = _pin;
     if (_pin > 7) {
         pinn = PINB;
         bit -= 8;
