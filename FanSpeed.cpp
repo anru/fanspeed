@@ -6,6 +6,8 @@
 #include "WProgram.h"
 #include "FanSpeed.h"
 
+#define CHK(x,y) (x & (1<<y))
+
 void FanSpeedBase::init(int pin, bool useInternalResistor = true)
 {
     pinMode(pin, INPUT);
@@ -33,8 +35,14 @@ FanSpeed::FanSpeed(int pin, bool useInternalResistor)
 
 unsigned long FanSpeed::process()
 {
-    pulseState = digitalRead(_pin);
-    if ((pulseState == HIGH) && (prevPulseState != pulseState)) {
+    int pinn = PIND;
+    int bit = _pin;
+    if (_pin > 7) {
+        pinn = PINB;
+        bit -= 8;
+    }
+    pulseState = pinn & _BV(bit);
+    if (pulseState && (prevPulseState != pulseState)) {
         _counter++;
     }
     prevPulseState = pulseState;

@@ -25,8 +25,8 @@ class FanSpeed: public FanSpeedBase
     FanSpeed(int pin, bool useInternalResistor = true); 
     unsigned long process();
   private:
-    int pulseState;
-    int prevPulseState;
+    bool pulseState;
+    bool prevPulseState;
 };
 
 
