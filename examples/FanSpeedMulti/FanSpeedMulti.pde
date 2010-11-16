@@ -13,7 +13,7 @@ void fancb(uint8_t stateMask) {
     }
 }
 
-FanSpeedMultiD fans(_BV(4)|_BV(5), 0); // read rpm from pin ports 4 and 5
+FanSpeedMultiD fans(_BV(4)|_BV(5), 0, fancb); // read rpm from pin ports 4 and 5
 
 
 
