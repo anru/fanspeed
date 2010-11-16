@@ -13,12 +13,11 @@ class FanSpeedBase
 {
   public:
     virtual void process();
-    unsigned long getPulseCounter();
+    volatile unsigned long counter;
     void reset();
   protected:
     void init(int pin, bool useInternalResistor);
     int _pin;
-    volatile unsigned long _counter;
 };
 
 class FanSpeed: public FanSpeedBase

@@ -6,8 +6,6 @@
 #include "WProgram.h"
 #include "FanSpeed.h"
 
-#define CHK(x,y) (x & (1<<y))
-
 void FanSpeedBase::init(int pin, bool useInternalResistor = true)
 {
     pinMode(pin, INPUT);
@@ -15,17 +13,13 @@ void FanSpeedBase::init(int pin, bool useInternalResistor = true)
         digitalWrite(pin, HIGH);
     }
     _pin = pin;
-    _counter = 0;
+    counter = 0;
 }
 
-unsigned long FanSpeedBase::getPulseCounter()
-{
-    return _counter;
-}
 
 void FanSpeedBase::reset()
 {
-    _counter = 0;
+    counter = 0;
 }
 
 FanSpeed::FanSpeed(int pin, bool useInternalResistor)
@@ -47,7 +41,7 @@ void FanSpeed::process()
     
     pulseState = pinn & bit;
     if ((pulseState ^ prevPulseState) & pulseState) {
-        _counter++;
+        counter++;
     }
     prevPulseState = pulseState;
 }
@@ -60,12 +54,12 @@ FanSpeedInt::FanSpeedInt(int pin, bool useInternalResistor)
 
 void FanSpeedInt::process()
 {
-    _counter++;
+    counter++;
 }
 
 FanSpeedMultiD::FanSpeedMultiD(uint8_t pins, uint8_t states, FANCB cb)
 {
-    DDRD &= ~pins; // set resistor to INPUT mode
+    DDRD &= ~pins; // set selected pins to INPUT mode
     PORTD |= states;  // set pull-up resistors to selected pins
     
     state = 0;
@@ -86,7 +80,7 @@ void FanSpeedMultiD::process()
 
 FanSpeedMultiB::FanSpeedMultiB(uint8_t pins, uint8_t states, FANCB cb)
 {
-    DDRB &= ~pins; // set resistor to INPUT mode
+    DDRB &= ~pins; // set selected pins to INPUT mode
     PORTB |= states;  // set pull-up resistors to selected pins
     
     state = 0;
