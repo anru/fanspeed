@@ -31,22 +31,24 @@ void FanSpeedBase::reset()
 FanSpeed::FanSpeed(int pin, bool useInternalResistor)
 {
     init(pin, useInternalResistor);
-}
-
-unsigned long FanSpeed::process()
-{
-    uint8_t pinn = PIND;
-    uint8_t bit = _pin;
+    bit = _pin;
     if (_pin > 7) {
-        pinn = PINB;
         bit -= 8;
     }
+}
+
+void FanSpeed::process()
+{
+    pinn = PIND;
+    if (_pin > 7) {
+        pinn = PINB;
+    }
+    
     pulseState = pinn & _BV(bit);
     if (pulseState && (prevPulseState != pulseState)) {
         _counter++;
     }
     prevPulseState = pulseState;
-    return _counter;
 }
 
 
@@ -55,8 +57,7 @@ FanSpeedInt::FanSpeedInt(int pin, bool useInternalResistor)
     init(pin, useInternalResistor);
 }
 
-unsigned long FanSpeedInt::process()
+void FanSpeedInt::process()
 {
     _counter++;
-    return _counter;
 }

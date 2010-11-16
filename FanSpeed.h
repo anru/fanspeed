@@ -10,7 +10,7 @@
 class FanSpeedBase
 {
   public:
-    virtual unsigned long process();
+    virtual void process();
     unsigned long getPulseCounter();
     void reset();
   protected:
@@ -23,10 +23,12 @@ class FanSpeed: public FanSpeedBase
 {
   public:
     FanSpeed(int pin, bool useInternalResistor = true); 
-    unsigned long process();
+    void process();
   private:
     bool pulseState;
     bool prevPulseState;
+    uint8_t bit;
+    uint8_t pinn;
 };
 
 
@@ -34,7 +36,7 @@ class FanSpeedInt: public FanSpeedBase
 {
   public:
     FanSpeedInt(int pin, bool useInternalResistor = true);
-    unsigned long process();
+    void process();
 };
 
 #endif
