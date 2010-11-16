@@ -1,3 +1,5 @@
+FanSpeedMultiD	KEYWORD1
+FanSpeedMultiB	KEYWORD1
 FanSpeedInt	KEYWORD1
 FanSpeed	KEYWORD1
 process	KEYWORD2

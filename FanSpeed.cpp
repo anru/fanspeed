@@ -35,17 +35,18 @@ FanSpeed::FanSpeed(int pin, bool useInternalResistor)
     if (_pin > 7) {
         bit -= 8;
     }
+    bit = _BV(bit);
 }
 
 void FanSpeed::process()
 {
-    pinn = PIND;
+    register uint8_t pinn = PIND;
     if (_pin > 7) {
         pinn = PINB;
     }
     
-    pulseState = pinn & _BV(bit);
-    if (pulseState && (prevPulseState != pulseState)) {
+    pulseState = pinn & bit;
+    if ((pulseState ^ prevPulseState) & pulseState) {
         _counter++;
     }
     prevPulseState = pulseState;
@@ -60,4 +61,46 @@ FanSpeedInt::FanSpeedInt(int pin, bool useInternalResistor)
 void FanSpeedInt::process()
 {
     _counter++;
+}
+
+FanSpeedMultiD::FanSpeedMultiD(uint8_t pins, uint8_t states, FANCB cb)
+{
+    DDRD &= ~pins; // set resistor to INPUT mode
+    PORTD |= states;  // set pull-up resistors to selected pins
+    
+    state = 0;
+    prevState = 0;
+    bits = pins;
+    callback = cb;
+}
+
+void FanSpeedMultiD::process()
+{
+    state = PIND & bits;
+    register uint8_t stateMask = (state ^ prevState) & state;
+    if (stateMask) {
+        (*callback)(stateMask);
+    }
+    prevState = state;
+}
+
+FanSpeedMultiB::FanSpeedMultiB(uint8_t pins, uint8_t states, FANCB cb)
+{
+    DDRB &= ~pins; // set resistor to INPUT mode
+    PORTB |= states;  // set pull-up resistors to selected pins
+    
+    state = 0;
+    prevState = 0;
+    bits = pins;
+    callback = cb;
+}
+
+void FanSpeedMultiB::process()
+{
+    state = PINB & bits;
+    register uint8_t stateMask = (state ^ prevState) & state;
+    if (stateMask) {
+        (*callback)(stateMask);
+    }
+    prevState = state;
 }
