@@ -21,7 +21,7 @@ Examples
 
 Examples located in examples sub directory
 
-Schema
+Scheme
 """"""
 
-.. image:: http://github.com/version/fanspeed/raw/master/examples/shema.jpg
+.. image:: https://github.com/anru/fanspeed/raw/master/examples/shema.jpg
